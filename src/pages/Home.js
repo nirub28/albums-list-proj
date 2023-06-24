@@ -1,19 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
 import { addToList, removeAlbum , updateAlbumApi} from "../api";
 import { v4 as uuidv4 } from 'uuid';
+import styles from '../styles/home.module.css';
+
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 export const handleAddAlbum = async (title, setAlbums) => {
-  try {
-    const response = await addToList(title);
-    if (response) {
-      setAlbums((prevAlbums) => [response, ...prevAlbums]);
-      console.log("Added alum");
-    } else {
-      console.log("Failed to add album");
+  if(title.length>0){   
+    try {
+      const response = await addToList(title);
+      if (response) {
+        setAlbums((prevAlbums) => [response, ...prevAlbums]);
+        toast.success('Album Added Successfully');
+      } else {
+        toast.error('Failed to add Album');
+      }
+    } catch (error) {
+      console.error("Error adding album:", error);
     }
-  } catch (error) {
-    console.error("Error adding album:", error);
+  } 
+  else{
+    toast.error('Title can not be Empty');
   }
 };
 
@@ -47,37 +57,45 @@ function Home() {
     await removeAlbum(albumId).then(() => {
       const filteredAlbums = albums.filter((album) => album.unId !== albumId);
       setAlbums(filteredAlbums);
+      toast.success('Album Deleted Successfully');
     });
   };
 
   /////////////////// update
 
   const updateAlbum = async (albumId, newTitle) => {
-    console.log('new title is getting updated', newTitle);
-    const albumToUpdate = albums.find((album) => album.unId === albumId);
+    if(newTitle.length>0){
+      const albumToUpdate = albums.find((album) => album.unId === albumId);
   
-    if (albumToUpdate) {
-      const updatedAlbum = { ...albumToUpdate, title: newTitle };
-  
-      const updatedAlbums = albums.map((album) =>
-        album.unId === albumId ? updatedAlbum : album
-      );
-  
-      try {
+      if (albumToUpdate) {
+        const updatedAlbum = { ...albumToUpdate, title: newTitle };
+    
+        const updatedAlbums = albums.map((album) =>
+          album.unId === albumId ? updatedAlbum : album
+        );
+    
+        try {
+          await updateAlbumApi(albumId, newTitle);
+          setAlbums(updatedAlbums); // Update the state with the updated albums
+          toast.success('Album Updated Successfully');
+        } catch (error) {
+          console.error("Error updating album:", error);
+          // Revert the update in case of an error
+          setAlbums(albums);
+        }
+      } else {
+        // Album not found in the client-side list, use the API approach
         await updateAlbumApi(albumId, newTitle);
-        console.log("Album updated successfully");
-        setAlbums(updatedAlbums); // Update the state with the updated albums
-      } catch (error) {
-        console.error("Error updating album:", error);
-        // Revert the update in case of an error
-        setAlbums(albums);
+        toast.success('Album Updated Successfully');
       }
-    } else {
-      // Album not found in the client-side list, use the API approach
-      await updateAlbumApi(albumId, newTitle);
+    
+      setIsUpdating(false);
+
     }
-  
-    setIsUpdating(false);
+    else{
+      toast.error('Title can not be Empty');
+    }
+    
   };
   
 
@@ -89,7 +107,6 @@ function Home() {
   const enableAlbumUpdate = (unId) => {
     setSelectedUnId(unId);
     setIsUpdating(true);
-    console.log('unId:', unId);
   };
   
 
@@ -115,7 +132,7 @@ function Home() {
       <h4>Albums list</h4>
       <form onSubmit={handleFormSubmit}>
         <input type="text" ref={inputRef} />
-        <button type="submit">Add Album</button>
+        <button className={styles.addBtn} type="submit">Add Album</button>
       </form>
 
       {albums.length > 0 && (
