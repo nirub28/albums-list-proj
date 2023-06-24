@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { addToList, removeAlbum , updateAlbumApi} from "../api";
 import { v4 as uuidv4 } from 'uuid';
 
+
 export const handleAddAlbum = async (title, setAlbums) => {
   try {
     const response = await addToList(title);
@@ -19,9 +20,13 @@ export const handleAddAlbum = async (title, setAlbums) => {
 function Home() {
   const [albums, setAlbums] = useState([]);
   const inputRef = useRef(null);
+  const updateInputRef = useRef(null);
+  const [isUpdating , setIsUpdating]= useState(true);
+  const [selectedUnId, setSelectedUnId] = useState(null);
+
 
   const fetchDataFromApi = () => {
-    fetch("https://jsonplaceholder.typicode.com/albums")
+    fetch("https://jsonplaceholder.typicode.com/albums?_start=0&_limit=5")
     .then((response) => response.json())
     .then((data) => {
       // Add a unique ID to each album
@@ -45,7 +50,10 @@ function Home() {
     });
   };
 
+  /////////////////// update
+
   const updateAlbum = async (albumId, newTitle) => {
+    console.log('new title is getting updated', newTitle);
     const albumToUpdate = albums.find((album) => album.unId === albumId);
   
     if (albumToUpdate) {
@@ -55,11 +63,10 @@ function Home() {
         album.unId === albumId ? updatedAlbum : album
       );
   
-      setAlbums(updatedAlbums);
-  
       try {
         await updateAlbumApi(albumId, newTitle);
         console.log("Album updated successfully");
+        setAlbums(updatedAlbums); // Update the state with the updated albums
       } catch (error) {
         console.error("Error updating album:", error);
         // Revert the update in case of an error
@@ -69,6 +76,20 @@ function Home() {
       // Album not found in the client-side list, use the API approach
       await updateAlbumApi(albumId, newTitle);
     }
+  
+    setIsUpdating(false);
+  };
+  
+
+
+  //////////////////////////
+
+
+
+  const enableAlbumUpdate = (unId) => {
+    setSelectedUnId(unId);
+    setIsUpdating(true);
+    console.log('unId:', unId);
   };
   
 
@@ -79,6 +100,15 @@ function Home() {
     await handleAddAlbum(inputValue, setAlbums);
     inputRef.current.value = "";
   };
+
+
+  const handleUpdateSubmit = async (e, unId) => {
+    e.preventDefault();
+    const updateInputValue = updateInputRef.current.value;
+    await updateAlbum(unId,updateInputValue);
+    setIsUpdating(false);
+    setSelectedUnId(null);
+  }
 
   return (
     <div className="App">
@@ -93,7 +123,18 @@ function Home() {
           {albums.map((album,index) => (
             <li key={`${album.id}-${index}`}>
               {album.title}
-              <button onClick={() => updateAlbum(album.unId, "New Title")}>Update</button>
+
+              {isUpdating  && selectedUnId === album.unId ? (
+                <form onSubmit={(e) => handleUpdateSubmit(e, album.unId)}>
+                <input type="text" ref={updateInputRef} />
+                <button type="submit">Save</button>
+              </form>
+        ) : (
+          <button onClick={ () => enableAlbumUpdate(album.unId)}>Update</button>
+        )}
+
+
+              {/* <button onClick={() => updateAlbum(album.unId, "New Title")}>Update</button> */}
               {/* <button onClick={() => updateAlbum(album.id)}>Update</button> */}
               <button onClick={() => deleteAlbum(album.unId)}>Delete</button>
             </li>
