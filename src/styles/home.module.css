@@ -1,3 +1,65 @@
 .addBtn{
-  color: red;
+  margin-left: 5px;
+}
+.addInput{
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.albumsList{
+    width: 100%;
+    background-color: rgb(103, 179, 179);
+    font-weight: bold;
+    text-align: center;
+}
+.btn{
+  height: 30px;
+  width: 85px;
+  background-color: #003000;
+  background-color: #008800; 
+  color: white; 
+  border: none; 
+  border-radius: 4px;
+  cursor: pointer; 
+}
+
+.btn:hover {
+    background-color: #45a049;
+  }
+
+li{
+    margin: 0 auto;
+    list-style: none;
+    height: 80px;
+    width:  390px;
+    border: 1px solid rgba(0, 0, 0, 0.2);  
+    margin-top: 5px;
+    background-color: #E8E8E8;
+    transition: background-color 0.3s;
+}
+li:hover{
+    background-color: #C8C8C8;
+}
+
+.updateBtn{
+    margin-left: 190px;
+}
+.saveBtn{
+    margin-left: 19px;
+}
+.deleteBtn{
+    margin-left: 5px;
+}
+.mainDiv{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-left: 10px;
+}
+.titleDiv{
+    margin-top: 5px;
+}
+.btnDiv{
+    margin-top: 13px;
+    display: flex;
+    justify-content: space-around;
 }

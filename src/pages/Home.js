@@ -36,7 +36,7 @@ function Home() {
 
 
   const fetchDataFromApi = () => {
-    fetch("https://jsonplaceholder.typicode.com/albums?_start=0&_limit=5")
+    fetch("https://jsonplaceholder.typicode.com/albums")  // limit - https://jsonplaceholder.typicode.com/albums?_start=0&_limit=5
     .then((response) => response.json())
     .then((data) => {
       // Add a unique ID to each album
@@ -128,32 +128,37 @@ function Home() {
   }
 
   return (
-    <div className="App">
-      <h4>Albums list</h4>
+    <div className={styles.App}>
+      <h2 className={styles.albumsList}>Albums list</h2>
       <form onSubmit={handleFormSubmit}>
-        <input type="text" ref={inputRef} />
-        <button className={styles.addBtn} type="submit">Add Album</button>
+        <input className={styles.addInput} type="text" placeholder="Type new album" ref={inputRef} />
+        <button className={`${styles.addBtn} ${styles.btn}`} type="submit">Add Album</button>
       </form>
 
       {albums.length > 0 && (
         <ul>
           {albums.map((album,index) => (
-            <li key={`${album.id}-${index}`}>
-              {album.title}
-
+            <li className={styles.liTag} key={`${album.id}-${index}`}>
+              <div className={styles.mainDiv}  >
+                <div className={styles.titleDiv}>
+                  <b> Title :</b> {album.title}
+               </div>
+               <div className={styles.btnDiv} >
               {isUpdating  && selectedUnId === album.unId ? (
                 <form onSubmit={(e) => handleUpdateSubmit(e, album.unId)}>
-                <input type="text" ref={updateInputRef} />
-                <button type="submit">Save</button>
+                <input className={styles.updateInput} type="text" placeholder="Update title" ref={updateInputRef} />
+                <button className={`${styles.saveBtn} ${styles.btn}`} type="submit">Save</button>
               </form>
         ) : (
-          <button onClick={ () => enableAlbumUpdate(album.unId)}>Update</button>
+          <button className={`${styles.updateBtn} ${styles.btn}`} onClick={ () => enableAlbumUpdate(album.unId)}>Update</button>
         )}
 
 
               {/* <button onClick={() => updateAlbum(album.unId, "New Title")}>Update</button> */}
               {/* <button onClick={() => updateAlbum(album.id)}>Update</button> */}
-              <button onClick={() => deleteAlbum(album.unId)}>Delete</button>
+              <button className={`${styles.deleteBtn} ${styles.btn}`} onClick={() => deleteAlbum(album.unId)}>Delete</button>
+            </div>
+            </div>
             </li>
           ))}
         </ul>
