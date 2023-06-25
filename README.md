@@ -1,78 +1,49 @@
-# Getting Started with Create React App
+# React Album List 
 
+This is a React application for managing albums. It allows you to add new albums, update existing ones, and delete albums from a list. The albums are fetched from an API and stored in a local state.
 
-----
-comments
-arrange
-readme
-style
+## Features
 
+- Get the existing albums from an API
+- Add a new album to the list
+- Update the title of an album
+- Delete an album from the list
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Installation
 
-## Available Scripts
+1. Clone the repository to your local machine:
 
-In the project directory, you can run:
+git clone https://github.com/nirub28/albums-list-proj
 
-### `npm start`
+2. Navigate to the project directory:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+cd albums-list
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. Install the dependencies using npm:
 
-### `npm test`
+## Usage
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To start the React development server and launch the application, use the following command:
 
-### `npm run build`
+npm start
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The application will be available at [http://localhost:3000].
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## API Integration
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The application interacts with a RESTful API to perform CRUD operations on albums. The API endpoints used are:
 
-### `npm run eject`
+- `GET /albums`: Fetches the list of albums.
+- `POST /albums`: Adds a new album.
+- `PUT /albums/{id}`: Updates the title of an album.
+- `DELETE /albums/{id}`: Deletes an album.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Project Structure
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The project structure is organized as follows:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `src/components`: Contains the main component files.
+- `src/pages`: Contains the page components, including the `Home` page for managing albums.
+- `src/api`: Contains the API integration code for adding, updating, and deleting albums.
+- `styles`: Contains the CSS module file for styling the `Home` page.
+- `.gitignore`: Specifies files and directories to be ignored by Git.

@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div className="App">
-      <ToastContainer 
+      <ToastContainer    // for notifications
           position="top-right"
           autoClose={1000}
           hideProgressBar={false}
